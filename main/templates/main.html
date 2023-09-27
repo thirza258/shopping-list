@@ -1,49 +1,97 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    
-    <h1>Shopping List Page</h1>
 
-    <h5>Name:</h5>
-    <p>{{name}}</p>
+    <nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary navbar-light bg-light shadow">
+        <div class="container-fluid">
+        <a class="navbar-brand" href="#">Shooping List</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse container justify-content-center" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url 'main:login' %}">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'main:logout' %}">Logout</a>
+            </li>
+            
+            <li class="nav-item text-center">
+                <a class="nav-link disabled" aria-disabled="true"><div class="text-center">{{name}}</div></a>
+            </li>
+            </ul>
+            <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+        </div>
+    </nav>    
 
-    <h5>Class:</h5>
-    <p>{{class}}</p>
+    
+    <div id="div-atas">
+        <h1>Shopping List Page</h1>
 
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Description</th>
-            <th>Date Added</th>
-        </tr>
-    
-        {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
-    
-        {% for product in products %}
+        <h5>Name:</h5>
+        <p>{{name}}</p>
+
+        <h5>Class:</h5>
+        <p>{{class}}</p>
+
+        <table>
             <tr>
-                <td>{{product.name}}</td>
-                <td>{{product.price}}</td>
-                <td>{{product.description}}</td>
-                <td>{{product.date_added}}</td>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Date Added</th>
             </tr>
-        {% endfor %}
-    </table>
-    
-    <br />
-    
-    <a href="{% url 'main:create_product' %}">
-        <button>
-            Add New Product
-        </button>
-    </a>
+        
+            {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
+        
+            {% for product in products %}
+                <tr>
+                    <td>{{product.name}}</td>
+                    <td>{{product.price}}</td>
+                    <td>{{product.description}}</td>
+                    <td>{{product.date_added}}</td>
+                    <td>
+                        <a href="{% url 'main:edit_product' product.pk %}">
+                            <button>
+                                Edit
+                            </button>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{% url 'main:delete_product' product.pk %}">
+                              <button>
+                                  Delete
+                              </button>
+                          </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        
+        <br />
+        
+        <a href="{% url 'main:create_product' %}">
+            <button>
+                Add New Product
+            </button>
+        </a>
 
-    <h5>Sesi terakhir login: {{ last_login }}</h5>
+        <h5>Sesi terakhir login: {{ last_login }}</h5>
 
-    <a href="{% url 'main:logout' %}">
-        <button>
-            Logout
-        </button>
-    </a>
+        <a href="{% url 'main:logout' %}">
+            <button>
+                Logout
+            </button>
+        </a>
+    </div>
+
+
+
+    
 
 {% endblock content %}
