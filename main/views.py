@@ -10,6 +10,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import get_object_or_404
 import datetime
 
 # Create your views here
@@ -87,6 +88,7 @@ def logout_user(request):
     response.delete_cookie("last_login")
     return response
 
+@csrf_exempt
 def edit_product(request, id):
     product = Product.objects.get(pk = id)
     form = ProductForm(request.POST or None, instance=product)
@@ -124,3 +126,25 @@ def add_product_ajax(request):
         return HttpResponse(b"CREATED", status=201)
 
     return HttpResponseNotFound()
+
+@csrf_exempt
+def edit_product_ajax(request, id):
+    if request.method == 'POST':
+        product = Product.objects.get(pk=id)
+        product.name = request.POST.get("name")
+        product.price = request.POST.get("price")
+        product.description = request.POST.get("description")
+        product.save()
+
+        return HttpResponse(b"OK", status=200)
+
+    return HttpResponseNotFound()
+
+@csrf_exempt
+def delete_product_ajax(request, id):
+    if request.method == 'DELETE':
+        product = get_object_or_404(Product, pk=id)
+        product.delete()
+        return HttpResponse("OK", status=200)
+
+
