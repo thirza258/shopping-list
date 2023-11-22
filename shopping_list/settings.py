@@ -62,6 +62,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "shopping_list.urls"
 
+CSRF_TRUSTED_ORIGINS = ["https://thirza-ahmad-tutorial.pbp.cs.ui.ac.id"]
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
